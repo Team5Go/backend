@@ -8,7 +8,8 @@ const reservationSchema = new mongoose.Schema({
     date: {type: Date, default: Date.now},
     time: {type: String, required: true},
     partySize: {type: Number, default: 1, required: true},
-    table: {type: Number, required: true}
+    table: {type: Number, required: true},
+    phoneNumber: {type: String, required: true}
 })
 
 const Reservation = mongoose.model('Reservation', reservationSchema)
