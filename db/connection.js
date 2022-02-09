@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
-const MONGOD_URI = 'mongodb://localhost:27017/team5'
+const mongoose = require('mongoose')
 
-mongoose.connection(MONGOD_URI, {
+const mongoURI = 'mongodb://localhost:27017/team5'
+
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
 
-
-.then(instances => {
-    console.log(`Connected to the db ${instances.connections[0].name}`);
+.then(instance => {
+    console.log(`Connected to the db: ${instance.connections[0].name}`);
 })
-.catch(err => console.log(`Connection failes`, err))
+.catch(err => console.log(`Connection failed`, err))
 
 module.exports = mongoose
