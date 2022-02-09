@@ -29,7 +29,7 @@ router.post('/', (req, res)=> {
             client.messages
             .create({
                 to: req.body.phoneNumber,
-                from: '+18126248062',
+                from: process.env.BUSINESS_PHONE_NUMBER,
                 body: 'Thank you for your reservation Guest!'
             })
             .then((message) => console.log(message.sid));
