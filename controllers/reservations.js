@@ -29,7 +29,6 @@ router.post('/', (req, res)=> {
         } else {
 
             //create reservation once the form has been submitted
-
             res.status(200).json(createdReservation);
 
             // twilio text message once form is submitted by user
@@ -60,14 +59,13 @@ router.post('/', (req, res)=> {
                 let info =  transporter.sendMail({
                     from: '"TeamFive Team" <teamfiveconfirmation@gmail.com>', // sender address
                     to: `${req.body.email}`, // list of receivers
-                    subject: "Reservation Confirmation ✔", // Subject line
-                    text: "Hello world?", // plain text body
-                    html: "<b>Hello world?</b>", // html body
+                    subject: "Reservation Confirmation ✅", // Subject line
+                    text: "Hello", // plain text body
+                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your reservation at TeamFive's eatery has been confirmed! We are looking forward to seeing you on ${req.body.date} at ${req.body.time}<br> Please <a href="#">click here</a> to change or cancel your resveration. This email will be your only record of your upcoming reservation. 
+                    </p><br> Thank you,<br> <b>TeamFive Eatery</b>`, // html body
                 });
 
                 console.log("Message sent: %s", info.messageId);
-                
-
                 // Preview only available when sending through an Ethereal account
                 console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
                 
