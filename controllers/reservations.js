@@ -30,7 +30,7 @@ router.post('/', (req, res)=> {
             .create({
                 to: req.body.phoneNumber,
                 from: process.env.BUSINESS_PHONE_NUMBER,
-                body: 'Thank you for your reservation Guest!'
+                body: ` Hello ${req.body.firstName}. Your reservation at TeamFive's has been confirmed for ${req.body.date} at ${req.body.time}. For reservation changes or cancellation, please visit the link inside your confirmation email sent to ${req.body.email}.`
             })
             .then((message) => console.log(message.sid));
             
