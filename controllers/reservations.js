@@ -5,6 +5,8 @@ const Reservation = require('../models/reservation')
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
+// email confirmation setup
+const nodemailer = require('nodemailer');
 
 
 // index route
@@ -25,7 +27,12 @@ router.post('/', (req, res)=> {
         if(error){
             res.status(400).json({error: error.messgae});
         } else {
-            // twilio message once form is submitted by user
+
+            //create reservation once the form has been submitted
+
+            res.status(200).json(createdReservation);
+
+            // twilio text message once form is submitted by user
             client.messages
             .create({
                 to: req.body.phoneNumber,
@@ -33,9 +40,37 @@ router.post('/', (req, res)=> {
                 body: ` Hello ${req.body.firstName}. Your reservation at TeamFive's has been confirmed for ${req.body.date} at ${req.body.time}. For reservation changes or cancellation, please visit the link inside your confirmation email sent to ${req.body.email}.`
             })
             .then((message) => console.log(message.sid));
-            
-            res.status(200).json(createdReservation);
-            
+
+            // send confirmation email to user once reservation form is submitted by user.
+                let transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    port: 587,
+                    secure: false,
+                    auth: {
+                        user: "teamfiveconfirmation@gmail.com", 
+                        pass: process.env.EMAIL_INFO, 
+                    },
+                    // ensure we can test email confirmation from local host
+                    tls:{
+                        rejectUnauthorized: false
+                    }
+                });
+
+            // user email details section
+                let info =  transporter.sendMail({
+                    from: '"TeamFive Team" <teamfiveconfirmation@gmail.com>', // sender address
+                    to: `${req.body.email}`, // list of receivers
+                    subject: "Reservation Confirmation ✔", // Subject line
+                    text: "Hello world?", // plain text body
+                    html: "<b>Hello world?</b>", // html body
+                });
+
+                console.log("Message sent: %s", info.messageId);
+                
+
+                // Preview only available when sending through an Ethereal account
+                console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                
         }
     })
 })
@@ -52,7 +87,6 @@ router.get('/:id', (req, res) => {
 })
 
 // delete route
-
 router.delete('/:id', (req, res)=> {
     Reservation.findByIdAndDelete(req.params.id, (error, reservation) => {
         if(error){
@@ -64,7 +98,6 @@ router.delete('/:id', (req, res)=> {
 })
 
 // update route 
-
 router.put('/:id', (req, res)=> {
     Reservation.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, updatereservation)=> {
         if(error){
