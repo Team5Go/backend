@@ -56,12 +56,13 @@ router.post('/', (req, res)=> {
                 });
 
             // user email details section
+        
                 let info =  transporter.sendMail({
                     from: '"TeamFive Team" <teamfiveconfirmation@gmail.com>', // sender address
                     to: `${req.body.email}`, // list of receivers
                     subject: "Reservation Confirmation ✅", // Subject line
                     text: "Hello", // plain text body
-                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your reservation at TeamFive's eatery has been confirmed! We are looking forward to seeing you on ${req.body.date} at ${req.body.time}<br> Please <a href="#">click here</a> to change or cancel your resveration. This email will be your only record of your upcoming reservation. 
+                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your reservation at TeamFive's eatery has been confirmed! We are looking forward to seeing you on <b>${req.body.date}</b> at <b>${req.body.time}</b><br> Please <a href="http://localhost:3000/">click here</a> to change or cancel your resveration. This email will be your only record of your upcoming reservation. 
                     </p><br> Thank you,<br> <b>TeamFive Eatery</b>`, // html body
                 });
 
