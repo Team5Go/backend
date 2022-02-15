@@ -21,8 +21,8 @@ router.get('/', (req, res) => {
 })
 
 // create/POST route 
-router.post('/', (req, res)=> {
-    res.header('Content-Type', 'application/json')
+router.post('/', async(req, res)=> {
+    // res.header('Content-Type', 'application/json')
     Reservation.create(req.body, (error, createdReservation) => {
         if(error){
             res.status(400).json({error: error.messgae});
@@ -32,13 +32,20 @@ router.post('/', (req, res)=> {
             res.status(200).json(createdReservation);
 
             // twilio text message once form is submitted by user
+            const destinationNumber = req.body.phoneNumber
             client.messages
             .create({
-                to: req.body.phoneNumber,
+                to: destinationNumber,
                 from: process.env.BUSINESS_PHONE_NUMBER,
-                body: ` Hello ${req.body.firstName}. Your reservation at TeamFive's has been confirmed for ${req.body.date} at ${req.body.time}. For reservation changes or cancellation, please visit the link inside your confirmation email sent to ${req.body.email}.`
+                body: `Hello ${req.body.firstName}. Your reservation at TeamFive's has been confirmed for ${req.body.date} at ${req.body.time}. For reservation changes or cancellation, please visit the link inside your confirmation email sent to ${req.body.email}.`
             })
-            .then((message) => console.log(message.sid));
+            .then((err, message) => {
+                if (err){
+                    console.log(err)
+                } else if (message.sid) {
+                    console.log(message.sid)
+                }
+            });
 
             // send confirmation email to user once reservation form is submitted by user.
                 let transporter = nodemailer.createTransport({
@@ -57,14 +64,16 @@ router.post('/', (req, res)=> {
 
             // user email details section
         
+                
                 let info =  transporter.sendMail({
                     from: '"TeamFive Team" <teamfiveconfirmation@gmail.com>', // sender address
                     to: `${req.body.email}`, // list of receivers
                     subject: "Reservation Confirmation ✅", // Subject line
                     text: "Hello", // plain text body
-                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your reservation at TeamFive's eatery has been confirmed! We are looking forward to seeing you on <b>${req.body.date}</b> at <b>${req.body.time}</b><br> Please <a href="http://localhost:3000/">click here</a> to change or cancel your resveration. This email will be your only record of your upcoming reservation. 
+                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your reservation at TeamFive's eatery has been confirmed! We are looking forward to seeing you on <b>${req.body.date}</b> at <b>${req.body.time}</b><br> Please <a href="http://localhost:4000/reservation/${createdReservation._id}">click here</a> to change or cancel your resveration. This email will be your only record of your upcoming reservation. 
                     </p><br> Thank you,<br> <b>TeamFive Eatery</b>`, // html body
                 });
+
 
                 console.log("Message sent: %s", info.messageId);
                 // Preview only available when sending through an Ethereal account
@@ -75,7 +84,7 @@ router.post('/', (req, res)=> {
 })
 
 // show route
-router.get('/:id', (req, res) => {
+router.get('/reservation/:id', (req, res) => {
     Reservation.findById(req.params.id, (error, reservation) => {
         if(error){
             res.status(400).json({error: error.message});
@@ -97,7 +106,7 @@ router.delete('/:id', (req, res)=> {
 })
 
 // update route 
-router.put('/:id', (req, res)=> {
+router.put('/edit/:id', (req, res)=> {
     Reservation.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, updatereservation)=> {
         if(error){
             res.status(400).send({error: error.message})
