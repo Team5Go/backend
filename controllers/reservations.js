@@ -70,7 +70,7 @@ router.post('/', async(req, res)=> {
                     to: `${req.body.email}`, // list of receivers
                     subject: "Reservation Confirmation ✅", // Subject line
                     text: "Hello", // plain text body
-                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your reservation at TeamFive's eatery has been confirmed! We are looking forward to seeing you on <b>${req.body.date}</b> at <b>${req.body.time}</b><br> Please <a href="http://localhost:4000/reservation/${createdReservation._id}">click here</a> to change or cancel your resveration. This email will be your only record of your upcoming reservation. 
+                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your reservation at TeamFive's eatery has been confirmed! We are looking forward to seeing you on <b>${req.body.date}</b> at <b>${req.body.time}</b><br> Please <a href="http://localhost:3000/reservation/${createdReservation._id}">click here</a> to change or cancel your reservation. This email will be your only record of your upcoming reservation. 
                     </p><br> Thank you,<br> <b>TeamFive Eatery</b>`, // html body
                 });
 
@@ -84,7 +84,7 @@ router.post('/', async(req, res)=> {
 })
 
 // show route
-router.get('/reservation/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     Reservation.findById(req.params.id, (error, reservation) => {
         if(error){
             res.status(400).json({error: error.message});
