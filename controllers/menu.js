@@ -10,8 +10,12 @@ router.get('/menu', (req, res) => {
         } else {
             res.status(200).json(menus)
         }
-        // res.render(menus)
+   
     })
+})
+
+router.get('/menu/add-to-cart/:id', (req, res)=> {
+    
 })
 
 
