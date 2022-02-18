@@ -10,7 +10,7 @@ router.get('/menu', (req, res) => {
         } else {
             res.status(200).json(menus)
         }
-        res.render(menus)
+        // res.render(menus)
     })
 })
 
