@@ -6,7 +6,7 @@ const Reservation = require('../models/reservation')
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
 // const client = require('twilio')(accountSid, authToken);
 // email confirmation setup
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
 
 // index route

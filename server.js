@@ -15,7 +15,8 @@ const menuController = require('./controllers/menu')
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/', reservationController, menuController);
+app.use('/', reservationController);
+app.use('/items', menuController);
 
 app.listen(PORT, () => console.log(`Running on Port ${PORT}`))
 
