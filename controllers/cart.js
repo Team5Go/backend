@@ -4,9 +4,9 @@ const Cart = require('../models/cart')
 // email confirmation setup
 const nodemailer = require('nodemailer');
 
-// Index Route
+
 router.get('/cart', (req, res) => {
-    Cart.find({}).populate({path: 'order', populate:{path:'menuItem', module:'Menu'}}).exec((error, cart) =>{
+    Cart.find({}, (error, cart) =>{
         if(error) {
             res.status(400).json({error: error.message})
         } else {
@@ -19,6 +19,7 @@ router.get('/cart', (req, res) => {
 // create/POST route 
 router.post('/cart', async(req, res)=> {
     Cart.create(req.body, (error, createdOrder) => {
+        console.log(error);
         if(error){
             res.status(400).json({error: error.messgae});
         } else {
@@ -63,10 +64,33 @@ router.post('/cart', async(req, res)=> {
 })
 
 
-
-//show route
+//Show route
 router.get('/cart/:id', (req, res) => {
-    Cart.findById(req.params.id).populate({path: 'order', populate:{path:'menuItem', module:'Menu'}}).exec((error, cart) =>{
+    Cart.findById(req.params.id, (error, cart) =>{
+        if(error) {
+            res.status(400).json({error: error.message})
+        } else {
+                res.status(200).json(cart)
+            
+        }
+    })
+})
+
+//Delete route
+router.delete('/cart/:id', (req, res) => {
+    Cart.findByIdAndDelete(req.params.id, (error, cart) =>{
+        if(error) {
+            res.status(400).json({error: error.message})
+        } else {
+                res.status(200).json(cart)
+                console.log('item was deleted');
+        }
+    })
+})
+
+//update route
+router.put('/cart/:id', (req, res) => {
+    Cart.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, cart) =>{
         if(error) {
             res.status(400).json({error: error.message})
         } else {
