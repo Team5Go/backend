@@ -44,6 +44,10 @@ router.post('/cart', async(req, res)=> {
                     }
                 });
 
+            // production or local env access
+
+                const url = process.env.NODE_ENV === "production" ? process.env.APP_URL : process.env.ENV_LOCAL;
+
             //  user email details section
         
                 let info =  transporter.sendMail({
@@ -51,7 +55,7 @@ router.post('/cart', async(req, res)=> {
                     to: `${req.body.email}`, // list of receivers
                     subject: "Reservation Confirmation ✅", // Subject line
                     text: "Hello", // plain text body
-                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your food order has been recieved and will be ready shortly!</b><br> Please <a href="http://localhost:3000/menu/cart/${createdOrder._id}">click here</a> to change or cancel your order. This email will be your only record of your order. 
+                    html: `<b>Hello ${req.body.firstName}</b> <br> <p>Your food order has been recieved and will be ready shortly!</b><br> Please <a href="${url}/menu/cart/${createdOrder._id}">click here</a> to change or cancel your order. This email will be your only record of your order. 
                     </p><br> Thank you,<br> <b>TeamFive Eatery</b>`, // html body
                 });
 
