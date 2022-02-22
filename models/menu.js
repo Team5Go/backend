@@ -4,7 +4,7 @@ const idPlagin = require('mongoose-id')
 const menuSchema = new mongoose.Schema({
     name: String,
     image: String,
-    price: Number,
+    price: String,
     description: String
 })
 
