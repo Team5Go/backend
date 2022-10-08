@@ -34,5 +34,29 @@ module.exports = [
         image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-986495_11-2b7fd5e.jpg?quality=90&webp=true&resize=300,272",
         price: 4.99,
         description: "A quintessentially Sicilian veggie dish of aubergines, tomatoes, raisins, capers and pine nuts - serve with toasted ciabatta"
+    },
+    {
+        image: "https://technext.github.io/pato/images/dinner-05.jpg",
+        name: 'Suspendisse EU',
+        description: 'Proin lacinia nisl ut ultricies posuere nulla',
+        price: 12.75,
+    },
+    {
+        image: "https://technext.github.io/pato/images/dinner-02.jpg",
+        name: 'Cras Maximus',
+        description: 'Proin lacinia nisl ut ultricies posuere nulla',
+        price: 29.79,
+    },
+    {
+        image: "https://technext.github.io/pato/images/dinner-01.jpg",
+        name: 'Maecenas Tristique',
+        description: 'Aenean pharetra tortor dui in pellentesque',
+        price: 29.79,
+    },
+    {
+        image: 'https://technext.github.io/pato/images/dinner-03.jpg',
+        name: 'Pine Nut Sbrisalona',
+        description: 'Aenean condimentum ante erat',
+        price: 45.09,
     }
 ]

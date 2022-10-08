@@ -1,0 +1,7 @@
+
+username: team5go
+password: team5go2022
+IP: 0.0.0.0/0
+
+
+mongodb+srv://team5go:team5go2022@clusterrestaurant.j4y3vlr.mongodb.net/Team5Go?retryWrites=true&w=majority
